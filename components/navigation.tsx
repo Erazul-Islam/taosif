@@ -44,7 +44,7 @@ export function Navigation() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Erazul Islam
+            Erazul Islam Taosif
           </motion.a>
 
           {/* Desktop Navigation */}

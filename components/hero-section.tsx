@@ -22,9 +22,9 @@ export function HeroSection() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-accent to-primary rounded-full blur-xl opacity-30 animate-pulse" />
               <img
-                src="/professional-portrait.png"
+                src="/taosif.png"
                 alt="Erazul Islam"
-                className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border-4 border-background shadow-xl"
+                className="relative w-32 h-32 sm:w-72 sm:h-72 rounded-full object-cover border-4 border-background shadow-xl"
               />
             </div>
           </motion.div>
@@ -43,7 +43,7 @@ export function HeroSection() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 text-balance"
           >
-            Erazul Islam
+            Erazul Islam Taosif
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -76,7 +76,7 @@ export function HeroSection() {
               variant="outline"
               className="font-medium shadow-lg hover:shadow-xl transition-shadow bg-transparent"
             >
-              <a href="/resume.pdf" download>
+              <a href="/taosif.pdf" download>
                 <Download className="h-4 w-4 mr-2" />
                 Download Resume
               </a>

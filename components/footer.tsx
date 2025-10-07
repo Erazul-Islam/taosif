@@ -4,7 +4,7 @@ export function Footer() {
       <div className="container mx-auto max-w-6xl">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Erazul Islam. All rights reserved.
+            © {new Date().getFullYear()} Erazul Islam Taosif. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">

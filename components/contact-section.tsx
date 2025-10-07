@@ -101,7 +101,7 @@ export function ContactSection() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <motion.a
-                    href="https://github.com"
+                    href="https://github.com/Erazul-Islam"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary transition-all group border border-transparent hover:border-accent/30"
@@ -115,7 +115,7 @@ export function ContactSection() {
                     </span>
                   </motion.a>
                   <motion.a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/md-erazul-islam"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary transition-all group border border-transparent hover:border-primary/30"
@@ -129,7 +129,7 @@ export function ContactSection() {
                     </span>
                   </motion.a>
                   <motion.a
-                    href="https://facebook.com"
+                    href="https://www.facebook.com/erazulislam.taosif"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary transition-all group border border-transparent hover:border-accent/30"
@@ -151,11 +151,11 @@ export function ContactSection() {
                       <Mail className="h-5 w-5 text-primary" />
                     </div>
                     <span className="text-muted-foreground group-hover:text-foreground transition-colors font-medium">
-                      erazul@example.com
+                      erazul89@gmail.com
                     </span>
                   </motion.a>
                   <motion.a
-                    href="tel:+1234567890"
+                    href="tel:+01843291218"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-secondary transition-all group border border-transparent hover:border-accent/30"
                     whileHover={{ x: 5 }}
                   >
@@ -163,7 +163,7 @@ export function ContactSection() {
                       <Phone className="h-5 w-5 text-accent" />
                     </div>
                     <span className="text-muted-foreground group-hover:text-foreground transition-colors font-medium">
-                      +123 456 7890
+                      +880 1843 291218
                     </span>
                   </motion.a>
                 </CardContent>
