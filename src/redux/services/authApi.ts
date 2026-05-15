@@ -1,15 +1,5 @@
+import { LoginPayload, LoginResponse } from "@/src/types/type";
 import { baseApi } from "./baseApi";
-
-interface LoginPayload {
-  email: string;
-  password: string;
-}
-
-interface LoginResponse {
-  success: boolean;
-  data : {}
-  token: string;
-}
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,13 +11,13 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    getMe: builder.query({
+    getMe: builder.query<LoginResponse, void>({
       query: () => ({
         url: "/users/me",
         method: "GET",
       }),
     }),
-    getAllUsers: builder.query({
+    getAllUsers: builder.query<LoginResponse, void>({
       query: () => ({
         url: "/users",
         method: "GET",
