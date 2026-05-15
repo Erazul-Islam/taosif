@@ -31,3 +31,16 @@ export interface LoginResponse {
   }
   token: string;
 }
+
+export interface TResponse<T> {
+  statusCode: number;
+  message: string;
+  success: boolean;
+  data: T;
+}
+
+export interface MessagePayload {
+  name: string;
+  email: string;
+  content: string;
+}

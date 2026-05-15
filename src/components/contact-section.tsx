@@ -1,30 +1,51 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef, useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
-import { Button } from "@/src/components/ui/button"
-import { Input } from "@/src/components/ui/input"
-import { Textarea } from "@/src/components/ui/textarea"
-import { Github, Linkedin, Mail, Facebook, Phone } from "lucide-react"
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { Textarea } from "@/src/components/ui/textarea";
+import { Github, Linkedin, Mail, Facebook, Phone } from "lucide-react";
+import { useSendMessageMutation } from "../redux/services/messageApi";
+import { toast } from "sonner";
 
 export function ContactSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [send, { isLoading }] = useSendMessageMutation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: "",
-  })
+    content: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { name, email, content } = formData;
+    const messageData = { name, email, content };
+    try {
+      const response = await send(messageData).unwrap();
+      if (response.statusCode === 201) {
+        toast.success("Message sent successfully!");
+        setFormData({ name: "", email: "", content: "" });
+      } else {
+        toast.error("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("An error occurred while sending the message.");
+    }
+  };
 
   return (
     <section id="contact" className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8">
@@ -34,9 +55,12 @@ export function ContactSection() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-center">Get In Touch</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 text-center">
+            Get In Touch
+          </h2>
           <p className="text-lg text-muted-foreground text-center mb-12 text-pretty">
-            I'm always open to discussing new projects, opportunities, or collaborations.
+            I'm always open to discussing new projects, opportunities, or
+            collaborations.
           </p>
 
           <div className="space-y-8">
@@ -48,41 +72,62 @@ export function ContactSection() {
               <Card className="border-2 shadow-lg">
                 <CardHeader>
                   <CardTitle>Send a Message</CardTitle>
-                  <CardDescription>Fill out the form and I'll get back to you as soon as possible.</CardDescription>
+                  <CardDescription>
+                    Fill out the form and I'll get back to you as soon as
+                    possible.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                    <motion.div
+                      whileFocus={{ scale: 1.02 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <Input
                         placeholder="Your Name"
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
                         required
                         className="focus:ring-2 focus:ring-accent transition-all"
                       />
                     </motion.div>
-                    <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                    <motion.div
+                      whileFocus={{ scale: 1.02 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <Input
                         type="email"
                         placeholder="Your Email"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
                         required
                         className="focus:ring-2 focus:ring-accent transition-all"
                       />
                     </motion.div>
-                    <motion.div whileFocus={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                    <motion.div
+                      whileFocus={{ scale: 1.02 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <Textarea
                         placeholder="Your Message"
                         rows={5}
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        value={formData.content}
+                        onChange={(e) =>
+                          setFormData({ ...formData, content: e.target.value })
+                        }
                         required
                         className="focus:ring-2 focus:ring-accent transition-all"
                       />
                     </motion.div>
-                    <Button type="submit" className="w-full shadow-md hover:shadow-lg transition-shadow">
-                      Send Message
+                    <Button
+                      type="submit"
+                      className="w-full shadow-md hover:shadow-lg transition-shadow"
+                    >
+                    { isLoading ? 'Sending...' : 'Send Message' }
                     </Button>
                   </form>
                 </CardContent>
@@ -97,7 +142,9 @@ export function ContactSection() {
               <Card className="border-2 shadow-lg">
                 <CardHeader>
                   <CardTitle>Connect With Me</CardTitle>
-                  <CardDescription>Find me on these platforms or reach out directly.</CardDescription>
+                  <CardDescription>
+                    Find me on these platforms or reach out directly.
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <motion.a
@@ -173,5 +220,5 @@ export function ContactSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
