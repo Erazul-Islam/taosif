@@ -2,12 +2,17 @@
 
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useGetAllSurveysQuery, useCreateSurveyMutation } from "@/src/redux/services/surveyApi";
+import {
+  useCreateSurveyMutation,
+  useDeleteSurveyMutation,
+  useGetAllSurveysQuery,
+} from "@/src/redux/services/surveyApi";
 import { LoaderPinwheel, Plus } from "lucide-react";
 import SurveyCard from "./survey-card";
 import { Button } from "@/src/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/src/components/ui/dialog";
 import { FormInput, FormSelect } from "@/src/components/form-elements";
+import DeleteConfirmationModal from "@/src/components/delete-confirmation-modal";
 import { toast } from "sonner";
 
 interface SurveyFormData {
@@ -20,10 +25,23 @@ interface SurveyFormData {
   endsAt: string;
 }
 
+interface SurveyItem {
+  id: string;
+  title: string;
+  description?: string;
+  status?: string;
+  startsAt?: string;
+  endsAt?: string;
+}
+
 const SurveyPage = () => {
   const { data, isLoading, refetch } = useGetAllSurveysQuery({});
   const [createSurvey, { isLoading: isCreating }] = useCreateSurveyMutation();
+  const [deleteSurvey, { isLoading: isDeleting }] = useDeleteSurveyMutation();
   const [open, setOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [surveyToDelete, setSurveyToDelete] = useState<SurveyItem | null>(null);
+  const [deletingSurveyId, setDeletingSurveyId] = useState<string | null>(null);
   const surveys = data?.data || [];
 
   const {
@@ -53,6 +71,33 @@ const SurveyPage = () => {
     } catch (error) {
       console.error(error);
       toast.error("Failed to create survey");
+    }
+  };
+
+  const handleDeleteSurvey = async (surveyId: string) => {
+    const survey = surveys.find((item: SurveyItem) => item.id === surveyId);
+    if (!survey) return;
+
+    setSurveyToDelete(survey);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteSurvey = async () => {
+    if (!surveyToDelete) return;
+
+    setDeletingSurveyId(surveyToDelete.id);
+
+    try {
+      await deleteSurvey(surveyToDelete.id).unwrap();
+      toast.success("Survey deleted successfully");
+      setIsDeleteModalOpen(false);
+      setSurveyToDelete(null);
+      refetch();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete survey");
+    } finally {
+      setDeletingSurveyId(null);
     }
   };
 
@@ -174,7 +219,24 @@ const SurveyPage = () => {
           <LoaderPinwheel className="h-10 w-10 animate-spin text-slate-300" />
         </div>
       ) : (
-        <SurveyCard surveys={surveys} />
+        <>
+          <SurveyCard
+            surveys={surveys}
+            onDeleteSurvey={handleDeleteSurvey}
+            deletingSurveyId={deletingSurveyId}
+            isDeleting={isDeleting}
+          />
+
+          <DeleteConfirmationModal
+            open={isDeleteModalOpen}
+            title="Delete this survey?"
+            description={`Are you sure you want to delete "${surveyToDelete?.title || "this survey"}"? This action cannot be undone.`}
+            confirmText="Delete survey"
+            onOpenChange={setIsDeleteModalOpen}
+            onConfirm={confirmDeleteSurvey}
+            isConfirming={isDeleting}
+          />
+        </>
       )}
     </div>
   );

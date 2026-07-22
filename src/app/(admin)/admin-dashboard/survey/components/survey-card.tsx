@@ -1,5 +1,5 @@
 import React from "react";
-import { CalendarDays, Clock3, Sparkles } from "lucide-react";
+import { CalendarDays, Clock3, LoaderPinwheel, Sparkles, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 enum SurveyStatus {
@@ -14,6 +14,7 @@ type Survey = {
   description?: string;
   status?: SurveyStatus | string;
   startsAt?: string;
+  endsAt?: string;
   endAt?: string;
 };
 
@@ -62,7 +63,17 @@ const formatDate = (value?: string) => {
   });
 };
 
-const SurveyCard = ({ surveys }: { surveys: Survey[] }) => {
+const SurveyCard = ({
+  surveys,
+  onDeleteSurvey,
+  deletingSurveyId,
+  isDeleting,
+}: {
+  surveys: Survey[];
+  onDeleteSurvey?: (surveyId: string) => Promise<void> | void;
+  deletingSurveyId?: string | null;
+  isDeleting?: boolean;
+}) => {
   return (
     <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
       {surveys.length === 0 ? (
@@ -72,30 +83,42 @@ const SurveyCard = ({ surveys }: { surveys: Survey[] }) => {
       ) : (
         surveys.map((survey) => {
           const style = getStatusStyle(survey.status);
+          const isCurrentDeleting = deletingSurveyId === survey.id || isDeleting;
 
           return (
-            <Link key={survey.id} href={`/admin-dashboard/survey/${survey.id}`}>
-              <div
-                key={survey.id}
-                className="group relative m-5 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-5 shadow-[0_20px_45px_-20px_rgba(0,0,0,0.55)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_25px_60px_-20px_rgba(0,0,0,0.72)]"
-              >
-                <div
-                  className={`absolute inset-x-0 top-0 h-1 ${style.barClass}`}
-                />
+            <div
+              key={survey.id}
+              className="group relative m-5 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-5 shadow-[0_20px_45px_-20px_rgba(0,0,0,0.55)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_25px_60px_-20px_rgba(0,0,0,0.72)]"
+            >
+              <div className={`absolute inset-x-0 top-0 h-1 ${style.barClass}`} />
 
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  onDeleteSurvey?.(survey.id);
+                }}
+                disabled={isCurrentDeleting}
+                className="absolute right-3 top-3 rounded-full border border-rose-500/20 bg-rose-500/10 p-2 text-rose-300 transition hover:bg-rose-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+                aria-label={`Delete ${survey.title}`}
+              >
+                {isCurrentDeleting ? (
+                  <LoaderPinwheel className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Trash2 className="h-4 cursor-pointer w-4" />
+                )}
+              </button>
+
+              <Link href={`/admin-dashboard/survey/${survey.id}`} className="block pr-12">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
-                      {survey.title}
-                    </h3>
+                    <h3 className="text-lg font-semibold text-white">{survey.title}</h3>
                     <p className="mt-2 line-clamp-3 text-sm text-slate-300">
-                      {survey.description ||
-                        "No description provided for this survey."}
+                      {survey.description || "No description provided for this survey."}
                     </p>
                   </div>
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${style.badgeClass}`}
-                  >
+                  <span className={`rounded-full px-3 py-1 text-xs font-medium ${style.badgeClass}`}>
                     {survey.status || SurveyStatus.DRAFT}
                   </span>
                 </div>
@@ -103,23 +126,21 @@ const SurveyCard = ({ surveys }: { surveys: Survey[] }) => {
                 <div className="mt-5 space-y-3 border-t border-white/10 pt-4 text-sm text-slate-300">
                   <div className="flex items-center gap-2">
                     <Sparkles className="h-4 w-4 text-slate-400" />
-                    <span className="font-medium text-slate-200">
-                      Survey Overview
-                    </span>
+                    <span className="font-medium text-slate-200">Survey Overview</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <CalendarDays className="h-4 w-4 text-slate-400" />
-                    <span>Starts: {formatDate(survey.startsAt)}</span>
+                    <span>Starts: {formatDate(survey.startsAt || survey.endsAt)}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <Clock3 className="h-4 w-4 text-slate-400" />
-                    <span>Ends: {formatDate(survey.endAt)}</span>
+                    <span>Ends: {formatDate(survey.endAt || survey.endsAt)}</span>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           );
         })
       )}

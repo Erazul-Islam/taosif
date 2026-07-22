@@ -6,14 +6,7 @@ import { ArrowLeft, CalendarClock, LoaderPinwheel, MessageSquareText, MonitorSma
 import React from "react";
 import { useGetSurveyResponsesQuery } from "@/src/redux/services/surveyApi";
 import { Button } from "@/src/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/src/components/ui/table";
+import SurveyResponseTable from "./survey-response-table";
 
 type SurveyAnswer = {
   questionId?: string;
@@ -26,7 +19,7 @@ type SurveyAnswer = {
 type SurveyResponseRecord = {
   id?: string;
   createdAt?: string;
-  updatedAt?: string;
+  submittedAt?: string;
   ipAddress?: string | null;
   userAgent?: string | null;
   answers?: SurveyAnswer[];
@@ -90,6 +83,7 @@ const SurveyResponses = () => {
   const params = useParams();
   const surveyId = params.id as string;
   const { data, isLoading, error } = useGetSurveyResponsesQuery(surveyId);
+  console.log(data)
   const responses = normalizeResponses(data as SurveyResponsesPayload | undefined);
 
   return (
@@ -156,55 +150,7 @@ const SurveyResponses = () => {
             No responses have been submitted for this survey yet.
           </div>
         ) : (
-          <div className="overflow-hidden rounded-[24px] border border-white/10 bg-slate-900/80 shadow-[0_20px_60px_-25px_rgba(0,0,0,0.9)]">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-slate-950/70 hover:bg-slate-950/70">
-                  <TableHead className="px-4 py-3 text-sm font-semibold text-slate-300">Submitted</TableHead>
-                  <TableHead className="px-4 py-3 text-sm font-semibold text-slate-300">Answers</TableHead>
-                  <TableHead className="px-4 py-3 text-sm font-semibold text-slate-300">Device / IP</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {responses.map((response) => (
-                  <TableRow key={response.id || response.createdAt} className="border-white/10 bg-slate-900/50 hover:bg-slate-800/70">
-                    <TableCell className="px-4 py-4 align-top text-sm text-slate-200">
-                      <div className="font-semibold text-white">{formatDate(response.createdAt)}</div>
-                      <div className="mt-1 text-xs text-slate-400">Updated {formatDate(response.updatedAt)}</div>
-                    </TableCell>
-                    <TableCell className="px-4 py-4 align-top text-sm text-slate-300">
-                      <div className="space-y-2">
-                        {(response.answers ?? []).length > 0 ? (
-                          response.answers?.map((answer, index) => (
-                            <div key={`${response.id || "response"}-${index}`} className="rounded-xl border border-white/10 bg-slate-800/80 px-3 py-2.5">
-                              <div className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                                {answer.question?.title || `Answer ${index + 1}`}
-                              </div>
-                              <div className="mt-1 font-medium text-white">
-                                {formatAnswerValue(answer.value)}
-                              </div>
-                            </div>
-                          ))
-                        ) : (
-                          <span className="text-slate-400">No answers recorded</span>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-4 py-4 align-top text-sm text-slate-300">
-                      <div className="max-w-xs rounded-xl border border-white/10 bg-slate-800/70 px-3 py-2">
-                        <div className="truncate font-medium text-white" title={response.userAgent || "Unknown device"}>
-                          {response.userAgent || "Unknown device"}
-                        </div>
-                        <div className="mt-1 text-xs text-slate-400">
-                          {response.ipAddress || "No IP recorded"}
-                        </div>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+          <SurveyResponseTable responses={responses} />
         )}
       </div>
     </div>

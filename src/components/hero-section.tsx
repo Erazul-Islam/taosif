@@ -20,11 +20,11 @@ export function HeroSection() {
             className="mb-8 flex justify-center"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent to-primary rounded-full blur-xl opacity-30 animate-pulse" />
+              <div className="absolute inset-0 bg-gradient-to-br rounded-full from-accent to-primary blur-xl opacity-30 animate-pulse" />
               <img
                 src="/taosif.png"
                 alt="Erazul Islam"
-                className="relative w-32 h-32 sm:w-72 sm:h-72 rounded-full object-cover border-4 border-background shadow-xl"
+                className="relative w-40 h-64 sm:w-96 sm:h-[500px] rounded-full object-cover border-4 border-background shadow-xl"
               />
             </div>
           </motion.div>
@@ -77,7 +77,7 @@ export function HeroSection() {
               className="font-medium shadow-lg hover:shadow-xl transition-shadow bg-transparent"
             >
               <a href="/taosif.pdf" download>
-                <Download className="h-4 w-4 mr-2" />
+                <Download className="h-4 w-4  mr-2" />
                 Download Resume
               </a>
             </Button>

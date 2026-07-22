@@ -13,8 +13,8 @@ const projects = [
     description:
       "A comprehensive bike rental platform with real-time availability tracking, booking management, and payment processing. Features admin dashboard for fleet management.",
     tags: ["React", "Node.js", "MongoDB", "Express"],
-    github: "#",
-    demo: "#",
+    github: "https://github.com/Erazul-Islam/bike-rental-service",
+    demo: "https://auto-bike-two.vercel.app",
     gradient: "from-cyan-500/20 to-blue-500/20",
   },
   {
@@ -22,8 +22,8 @@ const projects = [
     description:
       "Social platform connecting pet owners with veterinarians and pet care services. Includes appointment scheduling, community forums, and pet health tracking.",
     tags: ["Next.js", "Tailwind CSS", "PostgreSQL"],
-    github: "#",
-    demo: "#",
+    github: "https://github.com/Erazul-Islam/Pet-Care-FrontEnd",
+    demo: "https://petcareclient-phi.vercel.app",
     gradient: "from-green-500/20 to-emerald-500/20",
   },
   {
@@ -31,17 +31,37 @@ const projects = [
     description:
       "Interactive dashboard for tracking expenses, budgeting, and visualizing financial data with charts and analytics. Helps users make informed financial decisions.",
     tags: ["Next.js", "Chart.js", "MongoDB"],
-    github: "#",
-    demo: "#",
+    github: "https://github.com/Erazul-Islam/meely",
+    demo: "https://meely-alpha.vercel.app",
     gradient: "from-violet-500/20 to-purple-500/20",
   },
   {
-    title: "Accounting System",
+    title: "Egtos",
     description:
-      "Web-based accounting system for small businesses with invoice generation, financial reporting, and automated bookkeeping features.",
+      "Egtos is a web application that allows users to create and manage surveys, collect responses, and analyze data. It provides a user-friendly interface for survey creation and response tracking.",
+    tags: ["Next.js", "Chart.js", "MongoDB"],
+    github: "https://github.com/Erazul-Islam/egtos",
+    demo: "https://egtos.vercel.app",
+    gradient: "from-violet-500/20 to-purple-500/20",
+  },
+
+   {
+    title: "Full Stack Bike Rental System",
+    description:
+      "A comprehensive bike rental platform with real-time availability tracking, booking management, and payment processing. Features admin dashboard for fleet management.",
+    tags: ["React", "Node.js", "MongoDB", "Express"],
+    github: "https://github.com/Erazul-Islam/bike-rental-service",
+    demo: "https://auto-bike-two.vercel.app",
+    gradient: "from-cyan-500/20 to-blue-500/20",
+  },
+
+  {
+    title: "Insted",
+    description:
+      "Insted a platform that allows users to donate to poor people",
     tags: ["React", "Node.js", "Express", "MongoDB"],
-    github: "#",
-    demo: "#",
+    github: "https://github.com/Erazul-Islam/insted",
+    demo: "https://insted-virid.vercel.app",
     gradient: "from-orange-500/20 to-red-500/20",
   },
 ]

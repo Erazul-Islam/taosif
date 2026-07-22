@@ -2,14 +2,45 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src/components/ui/card"
 import { Button } from "@/src/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/src/components/ui/dialog"
 import { GraduationCap, Briefcase, Award, ExternalLink } from "lucide-react"
 
 export function ExperienceSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [selectedCertificate, setSelectedCertificate] = useState<{
+    title: string
+    description: string
+    image: string
+  } | null>(null)
+
+  const certificates = [
+    {
+      title: "Programming Certificate",
+      description: "Comprehensive training in software development and programming fundamentals",
+      image: "/programming-hero.png",
+    },
+    {
+      title: "QuickBooks Proficiency",
+      description: "Comprehensive training in accounting software and financial management",
+      image: "/quickbooks.png",
+    },
+    {
+      title: "Xero Accounting Software Training",
+      description: "Advanced cloud-based accounting and bookkeeping",
+      image: "/xero-logo.png",
+    },
+  ]
 
   return (
     <section
@@ -143,44 +174,60 @@ export function ExperienceSection() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="flex items-start justify-between gap-4 p-4 bg-gradient-to-br from-accent/5 to-primary/5 rounded-lg border border-accent/20">
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-foreground mb-1">Programming Certificate</h4>
-                          <p className="text-sm text-muted-foreground">
-                            Comprehensive training in software development and programming fundamentals
-                          </p>
-                        </div>
-                        <Button variant="outline" size="sm" className="shrink-0 bg-transparent">
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          View
-                        </Button>
-                      </div>
+                      {certificates.map((certificate, index) => {
+                        const isAccentCard = index % 2 === 0
 
-                      <div className="flex items-start justify-between gap-4 p-4 bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg border border-primary/20">
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-foreground mb-1">QuickBooks Proficiency</h4>
-                          <p className="text-sm text-muted-foreground">
-                            Comprehensive training in accounting software and financial management
-                          </p>
-                        </div>
-                        <Button variant="outline" size="sm" className="shrink-0 bg-transparent">
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          View
-                        </Button>
-                      </div>
-
-                      <div className="flex items-start justify-between gap-4 p-4 bg-gradient-to-br from-accent/5 to-primary/5 rounded-lg border border-accent/20">
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-foreground mb-1">Xero Accounting Software Training</h4>
-                          <p className="text-sm text-muted-foreground">
-                            Advanced cloud-based accounting and bookkeeping
-                          </p>
-                        </div>
-                        <Button variant="outline" size="sm" className="shrink-0 bg-transparent">
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          View
-                        </Button>
-                      </div>
+                        return (
+                          <div
+                            key={certificate.title}
+                            className={`flex items-start justify-between gap-4 p-4 rounded-lg border ${
+                              isAccentCard
+                                ? "bg-gradient-to-br from-accent/5 to-primary/5 border-accent/20"
+                                : "bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20"
+                            }`}
+                          >
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-foreground mb-1">{certificate.title}</h4>
+                              <p className="text-sm text-muted-foreground">{certificate.description}</p>
+                            </div>
+                            <Dialog
+                              open={selectedCertificate?.title === certificate.title}
+                              onOpenChange={(open) => {
+                                if (!open) setSelectedCertificate(null)
+                              }}
+                            >
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="shrink-0 bg-transparent"
+                                  onClick={() => setSelectedCertificate(certificate)}
+                                >
+                                  <ExternalLink className="h-4 w-4 mr-2" />
+                                  View
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-3xl p-0 overflow-hidden">
+                                <div className="p-4 sm:p-6">
+                                  <DialogHeader className="mb-4">
+                                    <DialogTitle>{selectedCertificate?.title}</DialogTitle>
+                                    <DialogDescription>{selectedCertificate?.description}</DialogDescription>
+                                  </DialogHeader>
+                                  <div className="rounded-lg border bg-muted/20 p-2">
+                                    {selectedCertificate && (
+                                      <img
+                                        src={selectedCertificate.image}
+                                        alt={selectedCertificate.title}
+                                        className="w-full h-auto max-h-[70vh] object-contain rounded-md"
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                              </DialogContent>
+                            </Dialog>
+                          </div>
+                        )
+                      })}
                     </div>
                   </CardContent>
                 </Card>

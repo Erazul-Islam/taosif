@@ -122,17 +122,17 @@ const SurveyDetails = () => {
 
               <div className="flex flex-wrap gap-2">
                 <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${getStatusClasses(survey?.status)}`}
+                  className={`rounded-full p-2 text-xs font-semibold ${getStatusClasses(survey?.status)}`}
                 >
                   {survey?.status || "DRAFT"}
                 </span>
                 <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${survey?.isPublic ? "bg-violet-500/15 text-violet-300 ring-1 ring-violet-400/30" : "bg-slate-700/80 text-slate-300 ring-1 ring-slate-600"}`}
+                  className={`rounded-full p-2 text-xs font-semibold ${survey?.isPublic ? "bg-violet-500/15 text-violet-300 ring-1 ring-violet-400/30" : "bg-slate-700/80 text-slate-300 ring-1 ring-slate-600"}`}
                 >
-                  {survey?.isPublic ? "Public" : "Private"}
+                  {survey?.isPublic ? "PUBLIC" : "PRIVATE"}
                 </span>
                 <Link href={`/admin-dashboard/survey/${surveyId}/responses`}>
-                  <Button variant="outline" size="sm" className="h-8 border-white/10 bg-white/5 text-slate-200 hover:bg-white/10">
+                  <Button variant="link" size="sm" className="h-8  cursor-pointer">
                     <Eye className="mr-2 h-4 w-4" />
                     See Responses
                   </Button>

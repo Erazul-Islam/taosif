@@ -3,6 +3,7 @@
 import { Button } from "@/src/components/ui/button";
 import { useGetPublicSurveyQuery, useSubmitSurveyMutation } from "@/src/redux/services/surveyApi";
 import { LoaderPinwheel, Sparkles, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -36,7 +37,7 @@ type PublicSurveyResponse = {
 type FormValues = Record<string, string | string[]>;
 
 const SurveyResponsePage = () => {
-  const slug = "ai-users-1784658528203";
+  const slug = "factors-influencing-ai-tool-dependency-among-university-students-in-bangladesh";
   const { data, isLoading } = useGetPublicSurveyQuery(slug);
   const [submitSurvey, { isLoading: isSubmitting }] = useSubmitSurveyMutation();
   const [submitted, setSubmitted] = useState(false);
@@ -136,6 +137,9 @@ const SurveyResponsePage = () => {
           <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-400" />
           <h1 className="mt-4 text-3xl font-semibold">Thanks for responding!</h1>
           <p className="mt-3 text-slate-400">Your answers have been recorded successfully.</p>
+          <Button asChild>
+            <Link href="/">Home</Link>
+          </Button>
         </div>
       </div>
     );
