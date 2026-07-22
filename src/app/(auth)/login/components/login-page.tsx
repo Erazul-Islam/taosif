@@ -2,7 +2,9 @@
 
 import { FormInput } from "@/src/components/form-elements";
 import { Button } from "@/src/components/ui/button";
+import { getFCMtoken } from "@/src/lib/getFCMtoken";
 import { useLoginMutation } from "@/src/redux/services/authApi";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner"
 
@@ -33,6 +35,25 @@ export default function LoginPage() {
     }
   };
 
+  useEffect(() => {
+  const init = async () => {
+    const token = await getFCMtoken();
+    console.log("token",token)
+
+    if (token) {
+      await fetch("http://localhost:5000/message/notify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      });
+    }
+  };
+
+  init();
+}, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <form onSubmit={handleSubmit(onsubmit)} className="w-full max-w-sm">
@@ -56,6 +77,10 @@ export default function LoginPage() {
           {isLoading ? "Loading..." : "Login"}
         </Button>
       </form>
+
+      <div>
+        <button>test</button>
+      </div>
     </div>
   );
 }

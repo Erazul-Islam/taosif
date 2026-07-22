@@ -4,6 +4,7 @@ import {
   Settings,
   Folder,
   FileText,
+  BrickWall
 } from "lucide-react";
 
 export const workspaces = [
@@ -31,10 +32,15 @@ export const sidebarItems = [
         ],
       },
       {
-        title: "Reports",
+        title: "Messages",
         icon: FileText,
-        href: "/reports",
+        href: "/admin-dashboard/messages",
       },
+      {
+        title: "Surveys",
+        icon: BrickWall,
+        href: "/admin-dashboard/survey",
+      }
     ],
   },
   {

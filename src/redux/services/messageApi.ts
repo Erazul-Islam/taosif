@@ -16,6 +16,13 @@ export const messageApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    sendNotification : builder.mutation({
+      query: (data) => ({
+        url: "/message/notify",
+        method: "POST",
+        body: data,
+      }),
+    })
   }),
 });
 

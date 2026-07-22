@@ -6,7 +6,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen w-full">
       <Sidebar />
       <ThemeProvider
         attribute="class"
@@ -14,7 +14,9 @@ export default function RootLayout({
         enableSystem
         disableTransitionOnChange
       >
-        <Providers>{children}</Providers>
+        <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden">
+          <Providers>{children}</Providers>
+        </div>
       </ThemeProvider>
     </div>
   );

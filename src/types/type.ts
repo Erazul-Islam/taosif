@@ -12,6 +12,8 @@ export interface BaseFieldProps {
 export interface InputProps extends BaseFieldProps {
   type?: string;
   register?: UseFormRegister<any>;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface LoginPayload {
@@ -21,6 +23,7 @@ export interface LoginPayload {
 
 export interface LoginResponse {
   success: boolean;
+  statusCode: number;
   data : {
     token: string;
     user: {

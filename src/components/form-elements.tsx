@@ -10,7 +10,9 @@ export const FormInput = ({
   required,
   error,
   register,
-}: InputProps) => {
+  value,
+  onChange,
+}: InputProps & { value?: string; onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void }) => {
   return (
     <div className="w-full space-y-1">
       {label && (
@@ -28,6 +30,8 @@ export const FormInput = ({
         type={type}
         placeholder={placeholder}
         disabled={disabled}
+        value={value}
+        onChange={onChange}
         {...(register ? register(name) : {})}
         className={`w-full rounded-lg border px-4 py-2 outline-none transition-all
           ${
