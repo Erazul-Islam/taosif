@@ -99,7 +99,7 @@ const SurveyResponses = () => {
           <div>
             <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-sky-300">
               <MessageSquareText className="h-3.5 w-3.5" />
-              Survey Responses
+              SURVEY RESPONSES
             </div>
             <h2 className="text-2xl font-semibold text-white">Response overview</h2>
             <p className="mt-1 text-sm text-slate-400">
